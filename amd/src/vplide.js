@@ -69,6 +69,7 @@ var VPLIDE = function(rootId, options) {
         'edit': true,
         'debug': true,
         'evaluate': true,
+        'remoteLab': true,
         'import': true,
         'resetfiles': true,
         'sort': true,
@@ -88,6 +89,7 @@ var VPLIDE = function(rootId, options) {
         options.delete = activateModification;
         options.comments = options.comments && !options.example;
         options.acetheme = true;
+        options.remoteLab = true;
     })();
     options.sort = (maxNumberOfFiles - minNumberOfFiles >= 2);
     options.multidelete = options.sort;
@@ -1861,7 +1863,7 @@ var VPLIDE = function(rootId, options) {
     /**
      * Launches the action
      *
-     * @param {string} action Action 'run', 'debug', 'evaluate'
+     * @param {string} action Action 'run', 'debug', 'evaluate', 'remoteLab'
      * @param {string} acting I18n for the action in progress
      * @param {string} data Data attached to the action
      */
@@ -1932,6 +1934,23 @@ var VPLIDE = function(rootId, options) {
         bindKey: {
             win: 'Shift-F11',
             mac: 'Command-Option-U'
+        }
+    });
+    /**
+     * Launches the evaluate action
+     */
+    function remoteLab() {
+        executionRequest('remoteLab', 'connecting');
+    }
+    menuButtons.add({
+        name: 'remoteLab',
+        originalAction: function() {
+            executionActions.setLastAction(remoteLab);
+            remoteLab();
+        },
+        bindKey: {
+            win: 'Ctrl-FR',
+            mac: 'Command-Option-R'
         }
     });
     menuButtons.add({
@@ -2018,6 +2037,7 @@ var VPLIDE = function(rootId, options) {
     menuHtml += menuButtons.getHTML('run');
     menuHtml += menuButtons.getHTML('debug');
     menuHtml += menuButtons.getHTML('evaluate');
+    menuHtml += menuButtons.getHTML('remoteLab');
     menuHtml += menuButtons.getHTML('comments');
     menuHtml += menuButtons.getHTML('console');
     menuHtml += "</span> ";
@@ -2099,6 +2119,7 @@ var VPLIDE = function(rootId, options) {
         menuButtons.enable('run', !running && (!modified || options.example) && isOptionAllowed('run'));
         menuButtons.enable('debug', !running && (!modified || options.example) && isOptionAllowed('debug'));
         menuButtons.enable('evaluate', !running && (!modified || options.example) && isOptionAllowed('evaluate'));
+        menuButtons.enable('remoteLab', true);
         menuButtons.enable('download', !modified);
         menuButtons.enable('new', nfiles < maxNumberOfFiles);
         menuButtons.enable('sort', nfiles - minNumberOfFiles > 1);

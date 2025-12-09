@@ -609,6 +609,7 @@ function mod_vpl_get_fontawesome_icon_map() {
             'mod_vpl:submissionview' => 'fa-archive',
             'mod_vpl:edit' => 'fa-code',
             'mod_vpl:evaluate' => 'fa-check-square-o',
+            'mod_vpl:remoteLab' => 'fa-microchip',
             'mod_vpl:calculate' => 'fa-calculator',
             'mod_vpl:comments' => 'fa-align-left',
             'mod_vpl:startdate' => 'fa-calendar-plus-o',

@@ -245,6 +245,7 @@ VPLUI.iconFolder = function() {
         'run': 'rocket',
         'running': 'rocket fa-spin',
         'debug': 'bug',
+        'remoteLab': 'microchip',
         'evaluate': 'check-square-o',
         'console': 'terminal',
         'about': 'question',
@@ -712,17 +713,4 @@ VPLUI.webSocketMonitor = function(coninfo, title, running, externalActions) {
         return ws !== null && ws.readyState != WebSocket.CLOSED;
     };
     return deferred;
-};
-
-VPLUI.hideIDEStatus = function() {
-    VPLUtil.delay('updateIDEStatus', function() {
-        $('.vpl_ide_status').hide();
-    });
-};
-
-VPLUI.showIDEStatus = function(status) {
-    VPLUtil.delay('updateIDEStatus', function() {
-        $('.vpl_ide_status').text(status);
-        $('.vpl_ide_status').show();
-    });
 };
