@@ -15,3 +15,5 @@ This software is provided "AS IS" without a warranty of any kind.
 
 For more details about VPL, visit the [VPL home page](http://vpl.dis.ulpgc.es) or
 the [VPL plugin page at Moodle](http://www.moodle.org/plugins/mod_vpl).
+
+Este fork fue creado con la intención de añadir una acción/boton al editor de vpl, para que permita la conexión a un laboratorio remoto de FPGA´s
