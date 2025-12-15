@@ -725,6 +725,9 @@ class mod_vpl_submission_CE extends mod_vpl_submission {
         $data = self::prepare_execution_base($this->vpl, $type);
         if ($type < 3) {
             $data = $this->prepare_execution_submission($data);
+        } elseif ($type == 4) {
+            // remoteLab action
+            $data = $this->prepare_execution_submission($data);
         } else {
             self::prepare_execution_evaluation_tests($data);
         }

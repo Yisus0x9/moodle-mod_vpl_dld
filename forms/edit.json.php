@@ -137,8 +137,11 @@ try {
             $files = mod_vpl_edit::filesfromide($actiondata->files);
             $result->response = mod_vpl_edit::directrun($vpl, $userid, $actiondata->command, $files);
             break;
+        case 'remoteLab':
+            $result->response = mod_vpl_edit::execute($vpl, $userid, 'remoteLab', $actiondata);
+            break;
         default:
-            throw new Exception('ajax action error: ' + $action);
+            throw new Exception('ajax action error: ' . $action);
     }
     if ($result->response === null) {
         $result->success = false;

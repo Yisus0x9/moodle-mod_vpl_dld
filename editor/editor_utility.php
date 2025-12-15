@@ -242,6 +242,17 @@ class vpl_editor_util {
                 class="ui-widget-content ui-corner-all" autofocus ></textarea>
         </fieldset>
     </div>
+    <div id="vpl_ide_dialog_ssh" class="vpl_ide_dialog"
+        style="display: none;">
+        <fieldset>
+            <label for="vpl_ide_input_ssh_server">Server (URL or IP)</label>
+            <input id="vpl_ide_input_ssh_server" name="vpl_ide_input_ssh_server"
+                class="ui-widget-content ui-corner-all" type="text" autofocus />
+            <label for="vpl_ide_input_ssh_username">Username</label>
+            <input id="vpl_ide_input_ssh_username" name="vpl_ide_input_ssh_username"
+                class="ui-widget-content ui-corner-all" type="text" />
+        </fieldset>
+    </div>
     <div id="vpl_ide_dialog_about" class="vpl_ide_dialog"
         style="display: none;">
         <div>
@@ -279,6 +290,28 @@ class vpl_editor_util {
     </form>
     <div id="vpl_ide_dialog_shortcuts" class="vpl_ide_dialog" style="display: none;" >
         <div class="vpl_ide_dialog_content"></div>
+    </div>
+    <div id="vpl_ide_dialog_ssh" class="vpl_ide_dialog" style="display: none;">
+        <fieldset>
+            <label for="vpl_ide_input_ssh_server">
+                Server URL or IP</label> <input
+                type="text" id="vpl_ide_input_ssh_server"
+                name="vpl_ide_input_ssh_server" value=""
+                placeholder="localhost or 192.168.1.100"
+                class="ui-widget-content ui-corner-all" autofocus /><br>
+            <label for="vpl_ide_input_ssh_username">
+                Username</label> <input
+                type="text" id="vpl_ide_input_ssh_username"
+                name="vpl_ide_input_ssh_username" value=""
+                placeholder="user"
+                class="ui-widget-content ui-corner-all" /><br>
+            <label for="vpl_ide_input_ssh_password">
+                Password</label> <input
+                type="password" id="vpl_ide_input_ssh_password"
+                name="vpl_ide_input_ssh_password" value=""
+                placeholder="••••••••"
+                class="ui-widget-content ui-corner-all" /><br>
+        </fieldset>
     </div>
     <div id="vpl_dialog_terminal">
         <pre id="vpl_terminal" class="vpl_terminal"></pre>

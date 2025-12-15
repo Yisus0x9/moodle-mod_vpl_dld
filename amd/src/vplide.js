@@ -1347,6 +1347,67 @@ var VPLIDE = function(rootId, options) {
     VPLUI.setDialogTitleIcon(dialogComments, 'comments');
 
     $('#vpl_ide_input_comments').width('30em');
+
+    /**
+     * Handle remote lab connection by showing iframe
+     */
+    function handleSSHConnection() {
+        var server = prompt('Enter remote lab server URL or IP address (e.g., 192.168.1.100 or lab.example.com):');
+        if (!server) {
+            return;
+        }
+
+        // Determine protocol (http or https)
+        var protocol = 'http://';
+        if (server.indexOf('http://') === 0 || server.indexOf('https://') === 0) {
+            protocol = '';
+        }
+
+        // Determine port (default 8080)
+        var serverWithPort = server;
+        if (server.indexOf(':') === -1 && !server.match(/\//)) {
+            serverWithPort = server + ':8080';
+        }
+
+        // Create iframe URL
+        var iframeUrl = protocol + serverWithPort + '/stream';
+
+        // Hide file list and results panels to maximize iframe space
+        if (fileListContainer.vplVisible) {
+            fileManager.fileListVisible(false);
+        }
+        if (resultContainer.vplVisible) {
+            resultContainer.hide();
+            resultContainer.vplVisible = false;
+        }
+
+        // Get tabs container
+        var tabsContainer = $('#vpl_tabs');
+
+        // Clear existing content and create iframe
+        tabsContainer.html(
+    '<div style="position: relative; width: 100%; padding-bottom: 56.25%; /* 16:9 */">' +
+        '<iframe id="vpl_remote_lab_iframe" ' +
+        'src="' + iframeUrl + '" ' +
+        'style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;">' +
+        '</iframe>' +
+    '</div>'
+);
+
+        // Update menu
+        VPLUtil.delay('updateMenu', updateMenu);
+        VPLUtil.delay('autoResizeTab', autoResizeTab);
+
+        // Show message with connection info
+        showMessage('Connected to remote lab at: ' + iframeUrl, {
+            title: 'Remote Lab Connected',
+            icon: 'info',
+            ok: function() {
+                // User acknowledged
+            }
+        });
+    }
+
     var aboutDialog = $('#vpl_ide_dialog_about');
     var OKButtons = {};
     OKButtons[str('ok')] = function() {
@@ -1937,10 +1998,10 @@ var VPLIDE = function(rootId, options) {
         }
     });
     /**
-     * Launches the evaluate action
+     * Launches the remoteLab action
      */
     function remoteLab() {
-        executionRequest('remoteLab', 'connecting');
+        handleSSHConnection();
     }
     menuButtons.add({
         name: 'remoteLab',

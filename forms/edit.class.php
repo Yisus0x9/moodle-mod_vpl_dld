@@ -253,7 +253,7 @@ class mod_vpl_edit {
         global $USER;
         $example = $vpl->get_instance()->example;
         $lastsub = $vpl->last_user_submission($userid);
-        if (! $lastsub && ! $example && $action != 'test_evaluate') {
+        if (! $lastsub && ! $example && $action != 'test_evaluate' && $action != 'remoteLab') {
             throw new Exception(get_string('nosubmission', VPL));
         }
         if ($example || ! $lastsub) {
@@ -261,9 +261,9 @@ class mod_vpl_edit {
         } else {
             $submission = new mod_vpl_submission_CE($vpl, $lastsub);
         }
-        $code = ['run' => 0, 'debug' => 1, 'evaluate' => 2, 'test_evaluate' => 3];
+        $code = ['run' => 0, 'debug' => 1, 'evaluate' => 2, 'test_evaluate' => 3, 'remoteLab' => 4];
         $traslate = ['run' => 'run', 'debug' => 'debugged',
-                     'evaluate' => 'evaluated', 'test_evaluate' => 'evaluated', ];
+                     'evaluate' => 'evaluated', 'test_evaluate' => 'evaluated', 'remoteLab' => 'run'];
         $eventclass = '\mod_vpl\event\submission_' . $traslate[$action];
         $eventclass::log($submission);
         return $submission->run($code[$action], $options);

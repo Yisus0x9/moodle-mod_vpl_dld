@@ -93,8 +93,11 @@ try {
         case 'getjails':
             $result->response->servers = vpl_jailserver_manager::get_https_server_list($vpl->get_instance()->jailservers);
             break;
+        case 'remoteLab':
+            $result->response = mod_vpl_edit::execute($vpl, $USER->id, 'remoteLab', $actiondata);
+            break;
         default:
-            throw new Exception('ajax action error: ' + $action);
+            throw new Exception('ajax action error: ' . $action);
     }
 } catch (\Throwable $e) {
     $result->success = false;
