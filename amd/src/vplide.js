@@ -1351,7 +1351,7 @@ var VPLIDE = function(rootId, options) {
     /**
      * Handle remote lab connection by showing iframe
      */
-    function handleSSHConnection() {
+    function handleRemoteVideoConnection() {
         var server = prompt('Enter remote lab server URL or IP address (e.g., 192.168.1.100 or lab.example.com):');
         if (!server) {
             return;
@@ -1385,28 +1385,53 @@ var VPLIDE = function(rootId, options) {
         var tabsContainer = $('#vpl_tabs');
 
         // Clear existing content and create iframe
+       // Limpiar el contenido existente e insertar el iframe
+        // Asegurar que el padre también ocupe todo el espacio
         tabsContainer.html(
-    '<div style="position: relative; width: 100%; padding-bottom: 56.25%; /* 16:9 */">' +
-        '<iframe id="vpl_remote_lab_iframe" ' +
-        'src="' + iframeUrl + '" ' +
-        'style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;">' +
-        '</iframe>' +
-    '</div>'
-);
+        '<div id="vpl_iframe_wrapper" style="position: relative; width: 100%; height: 100%; overflow: hidden;">' +
+            '<iframe id="vpl_remote_lab_iframe" ' +
+            'src="' + iframeUrl + '" ' +
+            'style="width: 1024px; height: 768px; border: none; ' +
+            'transform-origin: 0 0; position: absolute; top: 0; left: 0;">' +
+            '</iframe>' +
+        '</div>'
+    );
 
-        // Update menu
-        VPLUtil.delay('updateMenu', updateMenu);
-        VPLUtil.delay('autoResizeTab', autoResizeTab);
+        // Ejecutar al cargar y al redimensionar
+        $(window).on('resize', scaleIframe);
+        setTimeout(scaleIframe, 100); // Esperar a que se cargue el iframe
+                // Update menu
+                VPLUtil.delay('updateMenu', updateMenu);
+                VPLUtil.delay('autoResizeTab', autoResizeTab);
 
-        // Show message with connection info
-        showMessage('Connected to remote lab at: ' + iframeUrl, {
-            title: 'Remote Lab Connected',
-            icon: 'info',
-            ok: function() {
-                // User acknowledged
-            }
-        });
+                // Show message with connection info
+                showMessage('Connected to remote lab at: ' + iframeUrl, {
+                    title: 'Remote Lab Connected',
+                    icon: 'info',
+                    ok: function() {
+                        // User acknowledged
+                    }
+                });
     }
+
+    /**
+ * Scale the iframe to fit the container while maintaining aspect ratio
+ * @return {void}
+ */
+        function scaleIframe() {
+            var wrapper = $('#vpl_iframe_wrapper');
+            var iframe = $('#vpl_remote_lab_iframe');
+            var wrapperWidth = wrapper.width();
+            var wrapperHeight = wrapper.height();
+            var scaleX = wrapperWidth / 1024;
+            var scaleY = wrapperHeight / 768;
+            var scale = Math.min(scaleX, scaleY); // Mantener proporción
+            iframe.css({
+                'transform': 'scale(' + scale + ')',
+                'width': '1024px',
+                'height': '768px'
+            });
+        }
 
     var aboutDialog = $('#vpl_ide_dialog_about');
     var OKButtons = {};
@@ -2001,7 +2026,9 @@ var VPLIDE = function(rootId, options) {
      * Launches the remoteLab action
      */
     function remoteLab() {
-        handleSSHConnection();
+        //handleSSHConnection();
+        handleRemoteVideoConnection();
+
     }
     menuButtons.add({
         name: 'remoteLab',
